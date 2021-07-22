@@ -1,6 +1,6 @@
 {
   "name": "react-leave-page-confirm",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Render modal window to confirm page leave",
   "main": "dist/react-leave-page-confirm.js",
   "typings": "dist/react-leave-page-confirm.d.ts",

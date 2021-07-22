@@ -48,8 +48,52 @@ There are two possible options how the package can be used:
 ## Examples
 
 ```typescript
+import React, { ChangeEvent, } from 'react';
+import { createBrowserHistory} from 'history'
+import { ConfirmPageLeave } from 'react-leave-page-confirm'
 
+const history = createBrowserHistory();
+
+const initialValues = {
+  userName: '',
+}
+
+export const  App = () => {
+  const [isDataChanged, setIsDataChanged] = React.useState(false);
+  const [userName, setUserName ] = React.useState('')
+
+  const handleUserNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+
+    setUserName(value)
+
+    if (value !== initialValues.userName) {
+      setIsDataChanged(true)
+    } else {
+      setIsDataChanged(false)
+    }
+  }
+
+  return (
+    <div className="App">
+      <form>
+        <input value={userName} onChange={handleUserNameChange} />
+        <button type="submit">submit</button>
+      </form>
+
+      <a href="/test" onClick={(e: React.MouseEvent) => { 
+        e.preventDefault(); 
+        history.push(`/test`)}}
+      >
+        link to test page
+      </a>
+
+      <ConfirmPageLeave isActive={isDataChanged} history={history} />
+    </div>
+  );
+}
 ```
+in the example above neither page refresh nor link won't work without confirmation modal dialog in case value in "input" HTML element is changed (`isDataChanged === true`)
 
 
 
