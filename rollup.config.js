@@ -20,6 +20,7 @@ export default [
       },
     ],
     plugins: [peerDepsExternal(), resolve(), commonjs(), typescript()],
+    external: ['react', 'react-dom'],
   },
   {
     input,

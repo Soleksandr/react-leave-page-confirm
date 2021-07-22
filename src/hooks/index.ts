@@ -13,7 +13,7 @@ export const usePageLeaveBlocker = ({
   history,
   onHistoryChange,
 }: IUsePageLeaveBlockerHookArguments): [() => void] => {
-  const [location, setLocation] = React.useState('');
+  const [prevLocation, setPrevLocation] = React.useState('');
 
   const unblockRef = React.useRef<() => void>();
 
@@ -24,32 +24,33 @@ export const usePageLeaveBlocker = ({
       }
 
       e.preventDefault();
-      return (e.returnValue = 'Changes you made may not be saved.');
+      return (e.returnValue = 'Changes you made may not be saved');
     },
     [isActive],
   );
 
   const unblock = () => {
-    window.removeEventListener('beforeunload', onBeforeUnload);
-
     unblockRef.current && unblockRef.current();
 
-    history.push(location);
+    history.push(prevLocation);
   };
 
   React.useEffect(() => {
-    unblockRef.current = history.block(({ location, ...rest }) => {
-      onHistoryChange({ location, ...rest }, isActive);
+    if (!isActive && unblockRef.current) {
+      unblockRef.current();
 
-      if (!isActive) {
-        unblockRef.current && unblockRef.current();
+      return;
+    }
+
+    if (isActive && !unblockRef.current) {
+      unblockRef.current = history.block(({ location, ...rest }) => {
+        onHistoryChange({ location, ...rest }, isActive);
+
+        setPrevLocation(location.pathname);
+
         return;
-      }
-
-      setLocation(location.pathname);
-
-      return false;
-    });
+      });
+    }
 
     return () => {
       unblockRef.current && unblockRef.current();
