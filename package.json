@@ -1,12 +1,13 @@
 {
   "name": "react-leave-page-confirm",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Render modal window to confirm page leave",
   "main": "dist/react-leave-page-confirm.js",
   "typings": "dist/react-leave-page-confirm.d.ts",
   "files": [
     "dist"
   ],
+  "keywords": ["modal", "react", "leave page", "confirmation popup", "confirmation modal", "onBeforeUnload", "history"],
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && rollup -c",
